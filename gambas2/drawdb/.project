@@ -1,0 +1,25 @@
+# Gambas Project File 2.0
+# Compiled with Gambas 2.22.0
+Title=drawdb
+Startup=FMain
+Icon=img/ikona.png
+Version=0.0.9
+Library=gb.gui
+Library=gb.form
+Library=gb.settings
+Library=gb.xml
+Description=drawdb is fork db designer from fabFORCE.net by Geniv
+Authors=Geniv (geniv.radek@gmail.com)
+TabSize=2
+Translate=1
+Language=cs
+Maintainer=geniv
+Vendor=drawdb
+Address=geniv@geniv-asus
+Url=http://code.google.com/p/drawdb/
+License=General Public Licence
+UseRelease=1
+Systems=debian,ubuntu
+Menus=Applications/Programming,Applications/Programming
+Categories=Database,Database
+Groups=database,database
