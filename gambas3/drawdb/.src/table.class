@@ -1,0 +1,6 @@
+' Gambas class file
+Public id As Integer
+Public name As String
+Public x As Integer
+Public y As Integer
+Public comments As String

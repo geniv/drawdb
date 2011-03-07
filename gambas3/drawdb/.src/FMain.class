@@ -1,0 +1,195 @@
+' Gambas class file
+
+Private Const $minsize As Integer = 300
+
+Public Sub _new()
+
+End
+
+Public Sub Form_Open()
+  'DIM xml AS NEW XmlDocument
+  'DIM node, subnode, nod AS XmlNode
+  'DIM neco AS XmlNodeAttributes
+  'DIM i, j AS Integer
+  'DIM pok AS String
+
+  'nacteni konfigurace
+  Settings.Read(Me)
+  Debug Me
+  If Me.Width < $minsize Then
+    Me.Width = $minsize
+  Endif
+  
+  If Me.Height < $minsize Then
+    Me.Height = $minsize
+  Endif
+  
+  Settings.Read(canvas)
+
+  'GridView1.Columns.Count = 2
+  'GridView1.Rows.Count = 2
+  'GridView1.Columns.Width = 52
+
+  'GridView1[0, 0].Text = "ahoj"
+  'GridView1[1, 0].Picture = Picture["drawdb.png"]
+  'GridView1[0, 1].Text = "tuuuuuuu"
+
+  'DEBUG GridView1.X
+
+  'ToolButton1.X = GridView1.X + GridView1[0, 1].X
+  'ToolButton1.Y = GridView1.Y + GridView1[0, 1].Y
+
+  'IF Lof(P) THEN READ #P, buffer, Lof(P)
+  'xml.Open("php_layout.xml")
+  'node = xml.Root
+  'xml.FromString(data)
+'DEBUG xml.Root.Children
+'FOR i = 0 TO xml.Root.Children.Count - 1
+'  node = xml.Root.Children[i]
+'DEBUG node
+'  FOR j = 0 TO node.Children.Count - 1
+'    FOR EACH nod IN node.Children[j].Attributes
+'      DEBUG nod.Name;; nod.Value
+'    NEXT
+    'neco = node.Children[j].Attributes
+'    DEBUG node.Children[j].Name;; node.Children[j].Value
+'  NEXT
+'NEXT
+  'pok = NEW XmlReader
+  'pok.Open("updatelist.xml")
+  'aa = pok.Node
+  'DO WHILE pok.Node.Name <> "nodenameIamlookingfor"
+     'pok.Read()
+     'IF pok.Eof THEN BREAK
+     'DEBUG pok.Node.Depth;; pok.Node.Name;; pok.Node.Value
+     'aa.Attributes = pok.Node
+   'LOOP
+   'pok.Close()
+End
+
+Public Sub Form_Close()
+  'ulozeni konfigurace
+  Settings.Write(Me)
+  Settings.Write(canvas)
+
+End
+
+Public Sub Button1_Click()
+  Dim xml As New XmlDocument
+  Dim node As XmlNode
+  Dim i, j As Integer
+  Dim reg As New Region
+
+  Inc Application.Busy
+  Button1.Enabled = False
+  ProgressBar1.Value = 0
+
+  'Class.Load(region)
+
+  xml.Open("php_layout.xml")
+  'settings: xml.Root.Children[1]
+  'regions: xml.Root.Children[3].Children[1].Children[]
+  For i = 1 To xml.Root.Children[3].Children[1].Children.Count - 1 Step 2
+    ProgressBar1.Value = Round(i / (xml.Root.Children[3].Children[1].Children.Count - 1), -1)
+    'DEBUG Round(ProgressBar1.Value, -1);; "\nnovy region"
+' FMain.Button1_Click.88: novy region
+' FMain.Button1_Click.90: ID 5087
+' FMain.Button1_Click.90: RegionName Vydane faktury
+' FMain.Button1_Click.90: XPos 3428
+' FMain.Button1_Click.90: YPos 44
+' FMain.Button1_Click.90: Width 191
+' FMain.Button1_Click.90: Height 601
+' FMain.Button1_Click.90: RegionColor 3
+' FMain.Button1_Click.90: TablePrefix 0
+' FMain.Button1_Click.90: TableType 0
+' FMain.Button1_Click.90: OverwriteTablePrefix 0
+' FMain.Button1_Click.90: OverwriteTableType 0
+' FMain.Button1_Click.90: Comments 
+' FMain.Button1_Click.90: IsLinkedObject 0
+' FMain.Button1_Click.90: IDLinkedModel - 1
+' FMain.Button1_Click.90: Obj_id_Linked - 1
+' FMain.Button1_Click.90: OrderPos 124
+    'DEBUG "novy region"
+    For Each node In xml.Root.Children[3].Children[1].Children[i].Attributes
+      'DEBUG node.Name;; node.Value
+      Select Case node.Name
+        Case "ID"
+          reg.id = CInt(node.Value)
+        Case "RegionName"
+          reg.name = node.Value
+        Case "XPos"
+          reg.x = CInt(node.Value)
+        Case "YPos"
+          reg.y = CInt(node.Value)
+        Case "Width"
+          reg.w = CInt(node.Value)
+        Case "Height"
+          reg.h = CInt(node.Value)
+        Case "TablePrefix"
+          Break 'vyskoci z cyklu, dalsi data jsou zatim zbytecna
+      End Select
+    Next  'konec foreach
+    VytvorRegion(reg)
+  Next
+  'node = xml.Root.Children[3].Children[1].Children
+  'DEBUG node
+
+  'Button3.X = 273
+  'Button3.Y = 59
+
+  Button1.Enabled = True
+  Dec Application.Busy
+
+End
+
+Private Sub VytvorRegion(reg As Region)
+  Dim hreg As Panel
+  Dim hlab As Label
+
+  hreg = New Panel(canvas) As "RegionPanel"
+  hreg.Tag = reg.id
+  hreg.Background = &HF0F1FE&
+  hreg.Border = Border.Plain
+  hreg.X = reg.x
+  hreg.Y = reg.y
+  hreg.Width = reg.w
+  hreg.Height = reg.h
+
+  hlab = New Label(hreg) As "RegionLabel"
+  hlab.Tag = reg.id
+  hlab.Text = reg.name
+  hlab.Foreground = &HA6A7AB&
+  'move !
+  hlab.X = 2
+  hlab.Y = 2
+  hlab.Width = reg.w - 3
+  hlab.Height = 25
+
+End
+
+Public Sub RegionPanel_MouseDown()
+
+  If Mouse.Right Then
+      Message.Info(Last.Tag & " ueee?")
+  Endif
+
+End
+
+Private Sub VytvorTabulku(tab As Table)
+
+End
+
+Public Sub Button2_Click()
+Dim pok As Button
+  'DEBUG canvas.ScrollWidth;; canvas.ScrollHeight
+
+  pok = New Button(canvas) As "pokusnybutton"
+  pok.Text = "Buttoon"
+  pok.X = 273
+  pok.Y = 59
+  pok.Width = 100
+  pok.Height = 100
+  
+  'canvas.ScrollWidth += 200
+
+End

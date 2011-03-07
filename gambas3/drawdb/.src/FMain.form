@@ -1,0 +1,40 @@
+# Gambas Form File 3.0
+
+{ Form Form 
+  MoveScaled(0,0,85,55)
+  Icon = Picture["img/ikona.png"]
+  { canvas ScrollView 
+    MoveScaled(5,4,79,46)
+    Background = &HFFFFFF&
+    { Panel1 Panel 
+      MoveScaled(4,2,46,42)
+      Visible = False
+      Background = &HF0F1FE&
+      Border = Border.Plain
+      { GridView1 GridView 
+        MoveScaled(11,9,23,27)
+      }
+      { ToolButton1 ToolButton 
+        MoveScaled(39,7,4,4)
+        Border = True
+      }
+      { Label1 Label 
+        MoveScaled(0.2857,0.2857,16,4)
+        Background = Color.Foreground
+        Foreground = &HFFFF00&
+        Text = ("dsdsdsdhfjkdhfjhjdhfjdkhfjkdhfd")
+      }
+    }
+  }
+  { Button1 Button 
+    MoveScaled(1,51,10,4)
+    Text = ("import")
+  }
+  { ProgressBar1 ProgressBar 
+    MoveScaled(27,51,57,4)
+  }
+  { Button2 Button 
+    MoveScaled(1,41,4,9)
+    Text = ("Button2")
+  }
+}
